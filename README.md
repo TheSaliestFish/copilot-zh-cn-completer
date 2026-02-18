@@ -1,4 +1,4 @@
-# Copilot Chat zh-CN Completer (Unofficial)
+# GitHub Copilot Chat zh-CN Completer (Unofficial)
 
 Unofficial Simplified Chinese localization completer for `github.copilot-chat`.
 

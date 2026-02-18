@@ -67,9 +67,22 @@ Unofficial Simplified Chinese localization completer for `github.copilot-chat`.
 
 - `package.json` 的 `publisher`
 
+发布（推荐）：
+
+- 在 [VS Code Marketplace 管理页](https://marketplace.visualstudio.com/manage) 创建 Publisher
+- 在 Azure DevOps 创建 **Personal Access Token (PAT)**（用于 VS Code Marketplace 发布）
+- 本机登录：`vsce login <你的PublisherID>`
+- 发布：`vsce publish`
+
 打包：
 
 - `npm i -g @vscode/vsce`
 - `vsce package`
+
+本地重新加载测试：
+
+- `vsce package`
+- `code.cmd --install-extension .\copilot-zh-cn-completer-0.1.0.vsix --force`
+- 执行一次 **Developer: Reload Window**
 
 > 本仓库已通过 `.vscodeignore` 排除 `scripts/`、`node_modules/`、`*.vsix`，确保上架包只包含语言包必要内容。

@@ -1,10 +1,26 @@
 {
-  "name": "copilot-zh-cn-localization",
+  "name": "copilot-zh-cn-completer",
   "displayName": "Copilot Chat zh-CN Completer (Unofficial) / Copilot Chat 简中补全（非官方）",
   "description": "Unofficial zh-CN localization completer for GitHub Copilot Chat. / 为 GitHub Copilot Chat 提供简体中文本地化补全/修正（第三方）。",
   "version": "0.1.0",
   "publisher": "thesaliestfish",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheSaliestFish/copilot-zh-cn-completer.git"
+  },
+  "homepage": "https://github.com/TheSaliestFish/copilot-zh-cn-completer",
+  "bugs": {
+    "url": "https://github.com/TheSaliestFish/copilot-zh-cn-completer/issues"
+  },
+  "keywords": [
+    "copilot",
+    "copilot-chat",
+    "localization",
+    "i18n",
+    "zh-cn",
+    "chinese"
+  ],
   "engines": {
     "vscode": "^1.85.0"
   },

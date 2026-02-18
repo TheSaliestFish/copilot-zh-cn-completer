@@ -3,7 +3,7 @@
   "displayName": "Copilot Chat zh-CN Completer (Unofficial) / Copilot Chat 简中补全（非官方）",
   "description": "Unofficial zh-CN localization completer for GitHub Copilot Chat. / 为 GitHub Copilot Chat 提供简体中文本地化补全/修正（第三方）。",
   "version": "0.1.0",
-  "publisher": "thesaliestfish",
+  "publisher": "TheSaliestFish",
   "license": "MIT",
   "repository": {
     "type": "git",

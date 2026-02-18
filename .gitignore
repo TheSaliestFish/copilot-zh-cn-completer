@@ -1,0 +1,10 @@
+node_modules/
+*.vsix
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# Logs / caches
+*_tmp*

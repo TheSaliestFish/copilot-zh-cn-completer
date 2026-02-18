@@ -1,0 +1,7 @@
+**/.vscode/**
+**/scripts/**
+**/node_modules/**
+**/*.vsix
+**/_*.json
+**/_*.txt
+package-lock.json

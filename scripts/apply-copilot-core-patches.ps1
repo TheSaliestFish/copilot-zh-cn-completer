@@ -134,6 +134,9 @@ $patches = @(
   # Chat tool actions
   @{ module='vs/workbench/contrib/chat/browser/actions/chatToolActions'; key='chat.skip'; value='跳过' },
 
+  # Chat codeblock content
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatMarkdownContentPart'; key='chat.codeblock.edited'; value='已编辑' },
+
   # Agent sessions view
   @{ module='vs/workbench/contrib/chat/browser/widgetHosts/viewPane/chatViewPane'; key='sessions'; value='会话' },
   @{ module='vs/workbench/contrib/chat/browser/widgetHosts/viewPane/chatViewPane'; key='newSession'; value='新建会话' },
@@ -144,9 +147,31 @@ $patches = @(
   @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsFilter'; key='agentSessionStatus.inProgress'; value='进行中' },
   @{ module='vs/workbench/contrib/editTelemetry/browser/editStats/aiStatsStatusBar'; key='viewBySessions'; value='按会话查看' },
 
+  # Agent sessions context menu
+  @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsActions'; key='chat.openSessionInEditorGroup.label'; value='作为编辑器打开' },
+  @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsActions'; key='chat.openSessionInNewEditorGroup.label'; value='在一侧打开' },
+  @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsActions'; key='chat.openSessionInNewWindow.label'; value='在新窗口中打开' },
+  @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsActions'; key='markUnread'; value='标记为未读' },
+  @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsActions'; key='markAllRead.label'; value='全部标记为已读' },
+  @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsActions'; key='markSectionRead'; value='全部标记为已读' },
+  @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsActions'; key='archive'; value='归档' },
+  @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsActions'; key='archiveAllSessions.archive'; value='归档' },
+  @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsPicker'; key='archiveSession'; value='归档' },
+  @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsActions'; key='rename'; value='重命名...' },
+  @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsActions'; key='delete'; value='删除...' },
+
+  # Chat customization menu
+  @{ module='vs/workbench/contrib/chat/browser/actions/chatCustomizationDiagnosticsAction'; key='chat.diagnostics.label'; value='诊断' },
+  @{ module='vs/workbench/contrib/chat/browser/actions/chatCustomizationDiagnosticsAction'; key='status.type.skills'; value='技能' },
+  @{ module='vs/workbench/contrib/chat/browser/actions/chatCustomizationDiagnosticsAction'; key='status.type.hooks'; value='钩子' },
+  @{ module='vs/workbench/contrib/chat/browser/promptSyntax/skillActions'; key='configure-skills.short'; value='配置技能...' },
+  @{ module='vs/workbench/contrib/chat/browser/promptSyntax/hookActions'; key='commands.hooks.title'; value='钩子' },
+  @{ module='vs/workbench/contrib/chat/browser/promptSyntax/hookActions'; key='configure-hooks.short'; value='配置钩子...' },
+
   # Agent sessions time group headers + archive
   @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsViewer'; key='agentSessions.todaySection'; value='今天' },
-  @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsViewer'; key='agentSessions.weekSection'; value='上周' },
+  @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsViewer'; key='agentSessions.yesterdaySection'; value='昨天' },
+  @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsViewer'; key='agentSessions.weekSection'; value='过去一周' },
   @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsViewer'; key='agentSessions.olderSection'; value='更早' },
   @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsViewer'; key='agentSessions.archivedSection'; value='已归档' },
   @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsViewer'; key='agentSessions.archivedSectionWithCount'; value='已归档 ({0})' },
@@ -155,12 +180,14 @@ $patches = @(
 
   # Generic date
   @{ module='vs/base/common/date'; key='today'; value='今天' },
+  @{ module='vs/base/common/date'; key='yesterday'; value='昨天' },
 
   # References footer
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatReferencesContentPart'; key='usedReferencesSingular'; value='使用了 {0} 个引用' },
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatReferencesContentPart'; key='usedReferencesPlural'; value='使用了 {0} 个引用' },
 
   # Working... progress labels
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatListRenderer'; key='working'; value='工作中' },
   @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsViewer'; key='chat.session.status.inProgress'; value='工作中...' },
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatProgressContentPart'; key='workingMessage'; value='工作中...' },
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatThinkingContentPart'; key='chat.thinking.header'; value='工作中...' },
@@ -176,6 +203,8 @@ $patches = @(
   @{ module='vs/workbench/contrib/chat/common/tools/builtinTools/manageTodoListTool'; key='todo.created.single'; value='已创建 1 个待办事项' },
   @{ module='vs/workbench/contrib/chat/common/tools/builtinTools/manageTodoListTool'; key='todo.created.multiple'; value='已创建 {0} 个待办事项' },
   @{ module='vs/workbench/contrib/chat/common/tools/builtinTools/manageTodoListTool'; key='todo.starting'; value='开始：*{0}*（{1}/{2}）' },
+  @{ module='vs/workbench/contrib/chat/common/tools/builtinTools/manageTodoListTool'; key='todo.updated'; value='已更新待办事项列表' },
+  @{ module='vs/workbench/contrib/chat/common/tools/builtinTools/manageTodoListTool'; key='todo.updatedList'; value='已更新待办事项列表' },
 
   # Thinking status variants
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatThinkingContentPart'; key='chat.thinking.thinking.3'; value='正在考虑…' },
@@ -191,6 +220,10 @@ $patches = @(
   @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/task/runTaskTool'; key='chat.runningTask'; value='正在运行 `{0}`' },
 
   @{ module='vs/workbench/contrib/testing/common/testingChatAgentTool'; key='runTestTool.confirm.invocation'; value='正在运行测试…' },
+
+  # Terminal await tool status
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/awaitTerminalTool'; key='await.past'; value='已等待终端执行完成' },
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/awaitTerminalTool'; key='await.progressive'; value='正在等待终端执行完成' },
 
   # Tool confirmation service (allow in session/workspace/global)
   @{ module='vs/workbench/contrib/chat/browser/tools/languageModelToolsConfirmationService'; key='allowSession'; value='在此会话中允许' },
@@ -234,6 +267,70 @@ $patches = @(
   @{ module='vs/workbench/contrib/chat/browser/actions/chatQueueActions'; key='chat.queueMessage'; value='加入队列' },
   @{ module='vs/workbench/contrib/chat/browser/actions/chatQueueActions'; key='chat.steerWithMessage'; value='用消息引导' }
 )
+
+# Verified publisher strings (Extensions / MCP)
+$patches += @(
+  @{ module='vs/workbench/contrib/extensions/browser/extensionsViewer'; key='extension.arialabel.verifiedPublisher'; value='已验证发布者 {0}' },
+  @{ module='vs/workbench/contrib/extensions/browser/extensionsWidgets'; key='verified publisher'; value='此发布者已验证对 {0} 的所有权' },
+  @{ module='vs/workbench/contrib/extensions/browser/extensionsWidgets'; key='publisher verified tooltip'; value='此发布者已验证对 {0} 的所有权' },
+  @{ module='vs/workbench/contrib/mcp/browser/mcpServerWidgets'; key='verified publisher'; value='此发布者已验证对 {0} 的所有权' },
+  @{ module='vs/workbench/services/extensionManagement/common/extensionManagementService'; key='verifiedPublisherWithName'; value='{0} 已验证对 {1} 的所有权。' },
+  @{ module='vs/workbench/services/extensionManagement/common/extensionManagementService'; key='unverifiedPublisherWithName'; value='{0} [**未**验证]({1})。' },
+  @{ module='vs/workbench/services/extensionManagement/common/extensionManagementService'; key='unverifiedPublishers'; value='{0} 和 {1} [**未**验证]({2})。' },
+  @{ module='vs/workbench/services/extensionManagement/common/extensionManagementService'; key='allUnverifed'; value='所有发布者均[**未**验证]({0})。' }
+)
+
+function ConvertTo-NlsNormalizedMessage([string]$s) {
+  if ($null -eq $s) { return $null }
+  $s = $s -replace '&', ''
+  $s = $s -replace '\.\.\.', '…'
+  return $s
+}
+
+try {
+  $indexMapForAuto = Get-VSCodeCoreNlsIndexMap
+
+  $existing = @{}
+  foreach ($p in $patches) {
+    $existing["$($p.module)::$($p.key)"] = $true
+  }
+
+  $autoExactMap = @{
+    'Working'        = '工作中'
+    'Working…'       = '工作中…'
+    'Processing…'    = '处理中…'
+    'Evaluating…'    = '评估中…'
+    'Thinking'       = '思考中'
+    'Thinking…'      = '思考中…'
+    'Thinking: {0}'  = '思考中：{0}'
+  }
+
+  $autoStatus = @()
+  foreach ($id in $indexMapForAuto.Keys) {
+    $msg = $indexMapForAuto[$id].message
+    $norm = ConvertTo-NlsNormalizedMessage $msg
+    $value = $autoExactMap[$norm]
+    if ($null -eq $value) { continue }
+    if ($existing.ContainsKey($id)) {
+      continue
+    }
+
+    $parts = $id -split '::', 2
+    if ($parts.Count -ne 2) {
+      continue
+    }
+
+    $autoStatus += @{ module = $parts[0]; key = $parts[1]; value = $value }
+    $existing[$id] = $true
+  }
+
+  if ($autoStatus.Count -gt 0) {
+    $patches += $autoStatus
+    Write-Host "Auto patches (status): $($autoStatus.Count)"
+  }
+} catch {
+  Write-Host "Auto patches (status): skipped ($($_.Exception.Message))"
+}
 
 $changes = 0
 foreach ($p in $patches) {

@@ -26,7 +26,7 @@ Unofficial Simplified Chinese localization completer for `github.copilot-chat`.
 如果你遇到例如：
 
 - 工具确认 UI 的按钮/下拉仍为英文（Allow/Skip/Always Allow…）
-- Agent Sessions 的分组标题（TODAY/LAST WEEK/OLDER/ARCHIVED…）
+- Agent Sessions 的分组标题（今天/昨天/过去一周/更早/已归档…）
 - “Working…/Getting chat ready…/Used {0} references/Created {0} todos…” 等状态提示
 
 这些通常来自 VS Code 核心 NLS/缓存，**不在 Marketplace 语言包扩展的可覆盖范围内**。
@@ -34,6 +34,10 @@ Unofficial Simplified Chinese localization completer for `github.copilot-chat`.
 仓库提供了一个本地补丁脚本：
 
 - `scripts/apply-copilot-core-patches.ps1`
+
+以及一个辅助脚本（用于“看到英文 → 反查 VS Code core 的 module/key”）：
+
+- `scripts/find-core-nls-keys.ps1`
 
 它会在本机写入：
 
@@ -47,6 +51,17 @@ Unofficial Simplified Chinese localization completer for `github.copilot-chat`.
 在本仓库目录执行：
 
 - `pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts/apply-copilot-core-patches.ps1`
+
+### 反查未汉化条目（可选）
+
+当你在界面里看到仍是英文的按钮/菜单（例如 `Working...`、`Thinking...`、`Open in New Window`），可以用这个脚本把它们反查成 VS Code core 的 `module::key`，再把生成的条目粘贴进补丁脚本。
+
+- 精确匹配：
+  - `pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\find-core-nls-keys.ps1 "Working..." "Thinking..." -Normalize`
+- 通配符匹配：
+  - `pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\find-core-nls-keys.ps1 "Thinking*" -Normalize -UseWildcard`
+- 生成补丁模板：
+  - `pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\find-core-nls-keys.ps1 "Open to the Side" -Normalize -AsPatchTemplate`
 
 运行后必须 **完全退出并重启 VS Code**（不是 Reload Window），因为 clp 缓存会被进程加载到内存。
 
@@ -86,3 +101,10 @@ Unofficial Simplified Chinese localization completer for `github.copilot-chat`.
 - 执行一次 **Developer: Reload Window**
 
 > 本仓库已通过 `.vscodeignore` 排除 `scripts/`、`node_modules/`、`*.vsix`，确保上架包只包含语言包必要内容。
+
+## 更新报告（2026-03-02）
+
+- 新增并补齐 AI 步骤文案翻译：`Tried to run command but was blocked`、`Summarizing conversation history...`、`Ran ...` 系列。
+- 补齐工具调用错误文案：`Tried to use {0} - an unexpected error occurred`、`Tried to use {0} - {1}`。
+- 同步补齐 Hook 相关失败提示及常见步骤状态短语，减少升级后出现英文残留。
+- 更新核心补丁脚本与反查脚本，便于后续快速定位并修复 VS Code core 英文项。

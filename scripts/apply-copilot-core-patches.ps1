@@ -164,7 +164,21 @@ $patches = @(
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatTerminalToolConfirmationSubPart'; key='tool.skip'; value='跳过' },
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/abstractToolConfirmationSubPart'; key='skip'; value='跳过' },
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatToolConfirmationSubPart'; key='allow'; value='允许' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatToolConfirmationSubPart'; key='allowReview'; value='允许并审查一次' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatToolConfirmationSubPart'; key='allowSkip'; value='允许并跳过审查结果' },
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatToolPostExecuteConfirmationPart'; key='allow'; value='允许' },
+
+  # Built-in tool: fetch webpage confirmation
+  @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.confirmationTitle.singular'; value='提取网页？' },
+  @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.confirmationTitle.plural'; value='提取多个网页？' },
+  @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.confirmationMessage.plural'; value='网页内容可能包含恶意代码，或尝试进行提示注入攻击。' },
+
+  # URL fetching approvals (dropdown options)
+  @{ module='vs/workbench/contrib/chat/common/tools/builtinTools/chatUrlFetchingConfirmation'; key='approveRequestTo'; value='允许请求到 {0}' },
+  @{ module='vs/workbench/contrib/chat/common/tools/builtinTools/chatUrlFetchingConfirmation'; key='moreOptions'; value='允许请求到...' },
+
+  # Terminal tool prompt-injection disclaimer (reused string)
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/commandLineAnalyzer/commandLineAutoApproveAnalyzer'; key='runInTerminal.promptInjectionDisclaimer'; value='网页内容可能包含恶意代码，或尝试进行提示注入攻击。' },
 
   # Chat tool actions
   @{ module='vs/workbench/contrib/chat/browser/actions/chatToolActions'; key='chat.skip'; value='跳过' },

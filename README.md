@@ -1,110 +1,70 @@
-# GitHub Copilot Chat zh-CN Completer (Unofficial)
+# GitHub Copilot Chat 简体中文补全（非官方）
+
+这是一个 VS Code **语言包扩展（Localization Pack）**，用于补全/修正 `github.copilot-chat` 在简体中文界面下的本地化显示。
 
 Unofficial Simplified Chinese localization completer for `github.copilot-chat`.
 
-—
+## 安装
 
-## GitHub Copilot Chat 简体中文语言包（非官方）
+1. 打开 VS Code 命令面板（Windows：`Ctrl+Shift+P`）。
+2. 运行 **Configure Display Language**，选择 `zh-cn`，按提示重启 VS Code。
+3. 在扩展市场中安装本扩展。
+4. 执行一次 **Developer: Reload Window**。
 
-这是一个 VS Code **语言包扩展（Localization Pack）**，为 `github.copilot-chat` 提供简体中文本地化补全/修正。
+## 验证
 
-- 语言：`zh-cn`
-- 覆盖范围：`github.copilot-chat`
-- 翻译条目：`package` 389 条 + `bundle` 805 条（当前仓库内已全部非空）
+- 打开 Copilot Chat/Agent 相关界面（例如侧边栏 Copilot Chat）。
+- 若仍看到英文：先确认 VS Code 的显示语言确实为 `zh-cn`，并尝试“完全退出 VS Code 后重新打开”。
 
-> 说明：部分你在界面里看到的英文并不来自 Copilot Chat 扩展，而是来自 **VS Code 核心工作台（Chat/Agent/Terminal Agent Tools）**。这些字符串**不能**通过 Marketplace 上架的普通扩展直接覆盖。
+## 覆盖范围与限制
 
-> Note: Some English UI strings are from **VS Code core** (Chat/Agent/Terminal Agent Tools). Those cannot be overridden by a Marketplace localization pack alone.
+- 本扩展仅覆盖 `github.copilot-chat` 扩展自身的可本地化字符串。
+- 你在界面里看到的部分英文可能来自 **VS Code 核心**（例如 Chat/Agent/Terminal Agent Tools 等），这类字符串无法通过 Marketplace 上架的语言包扩展直接覆盖。
 
-## 安装与验证（语言包扩展）
+## 常见问题
 
-1. 在 VS Code 中确保显示语言为简体中文：命令面板运行 **Configure Display Language** → 选择 `zh-cn`。
-2. 安装本扩展后执行一次 **Developer: Reload Window**。
+- **为什么装了还不生效？**
+  - 仅在显示语言为 `zh-cn` 时生效；并且部分内容需要 Reload 或重启后才会刷新。
+- **为什么仍有少量英文？**
+  - 可能来自 VS Code 核心或其他扩展，不属于本扩展可覆盖范围。
 
-## 可选：本地补丁（修复 VS Code 核心英文按钮/下拉/状态提示）
+## 可选：修复 VS Code 核心残留英文（本地补丁）
 
-如果你遇到例如：
+有些英文按钮/菜单/状态提示并不来自 `github.copilot-chat` 扩展，而是来自 **VS Code 核心**（例如 Chat/Agent/Terminal Agent Tools）。这类字符串无法通过 Marketplace 上架的语言包扩展直接覆盖。
 
-- 工具确认 UI 的按钮/下拉仍为英文（Allow/Skip/Always Allow…）
-- Agent Sessions 的分组标题（今天/昨天/过去一周/更早/已归档…）
-- “Working…/Getting chat ready…/Used {0} references/Created {0} todos…” 等状态提示
-
-这些通常来自 VS Code 核心 NLS/缓存，**不在 Marketplace 语言包扩展的可覆盖范围内**。
-
-仓库提供了一个本地补丁脚本：
+本仓库提供“本地补丁脚本”，用于在你的本机上修补简中语言包与 VS Code 缓存，从而改善这些核心英文残留：
 
 - `scripts/apply-copilot-core-patches.ps1`
 
-以及一个辅助脚本（用于“看到英文 → 反查 VS Code core 的 module/key”）：
+> 注意：该脚本只在 **GitHub 仓库源码** 中提供，不会包含在 Marketplace 安装的扩展包内。
 
-- `scripts/find-core-nls-keys.ps1`
+### 运行指南（推荐 PowerShell 7）
 
-它会在本机写入：
+1. 从 GitHub 克隆/下载本仓库源码。
+2. 在仓库根目录打开 PowerShell 7（`pwsh`）。
+3. 执行：`pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\apply-copilot-core-patches.ps1`
+4. 运行完成后，**完全退出并重启 VS Code**（不是 Reload Window），因为缓存可能已被进程加载。
 
-- 简中语言包的 `main.i18n.json`
-- VS Code 用户数据目录的 clp 缓存 `nls.messages.json`
+### 回滚与风险
 
-并自动生成 `.bak.<timestamp>` 备份。
-
-### 运行方式
-
-在本仓库目录执行：
-
-- `pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts/apply-copilot-core-patches.ps1`
+- 脚本写入前会在同目录生成 `.bak.<timestamp>` 备份文件；需要回滚时可用备份覆盖原文件。
+- VS Code 或语言包更新后缓存可能重建，可能需要重新运行脚本。
 
 ### 反查未汉化条目（可选）
 
-当你在界面里看到仍是英文的按钮/菜单（例如 `Working...`、`Thinking...`、`Open in New Window`），可以用这个脚本把它们反查成 VS Code core 的 `module::key`，再把生成的条目粘贴进补丁脚本。
+当你在界面里看到仍是英文的核心字符串时，可用辅助脚本反查到 VS Code core 的 `module::key`：
 
-- 精确匹配：
-  - `pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\find-core-nls-keys.ps1 "Working..." "Thinking..." -Normalize`
-- 通配符匹配：
-  - `pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\find-core-nls-keys.ps1 "Thinking*" -Normalize -UseWildcard`
-- 生成补丁模板：
-  - `pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\find-core-nls-keys.ps1 "Open to the Side" -Normalize -AsPatchTemplate`
+- `scripts/find-core-nls-keys.ps1`
 
-运行后必须 **完全退出并重启 VS Code**（不是 Reload Window），因为 clp 缓存会被进程加载到内存。
+示例：
 
-### 回滚
+- 精确匹配：`pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\find-core-nls-keys.ps1 "Working..." "Thinking..." -Normalize`
+- 通配符匹配：`pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\find-core-nls-keys.ps1 "Thinking*" -Normalize -UseWildcard`
 
-脚本每次写入都会生成备份文件（同目录下 `.bak.<timestamp>`）。
+## 反馈
 
-- 需要回滚时，把对应的 `.bak.*` 覆盖回原文件即可。
+- 问题反馈/建议：<https://github.com/TheSaliestFish/copilot-zh-cn-completer/issues>
 
-### 风险提示
+## License
 
-- VS Code 或语言包更新后，clp 缓存可能会重建，需要重新运行脚本。
-- 这是“本地补丁”方案，不适合打包上架；建议只在 GitHub 仓库中作为可选手段提供。
-
-## 发布到 Marketplace（你需要改的字段）
-
-发布前请修改：
-
-- `package.json` 的 `publisher`
-
-发布（推荐）：
-
-- 在 [VS Code Marketplace 管理页](https://marketplace.visualstudio.com/manage) 创建 Publisher
-- 在 Azure DevOps 创建 **Personal Access Token (PAT)**（用于 VS Code Marketplace 发布）
-- 本机登录：`vsce login <你的PublisherID>`
-- 发布：`vsce publish`
-
-打包：
-
-- `npm i -g @vscode/vsce`
-- `vsce package`
-
-本地重新加载测试：
-
-- `vsce package`
-- `code.cmd --install-extension .\copilot-zh-cn-completer-0.1.0.vsix --force`
-- 执行一次 **Developer: Reload Window**
-
-> 本仓库已通过 `.vscodeignore` 排除 `scripts/`、`node_modules/`、`*.vsix`，确保上架包只包含语言包必要内容。
-
-## 更新报告（2026-03-02）
-
-- 新增并补齐 AI 步骤文案翻译：`Tried to run command but was blocked`、`Summarizing conversation history...`、`Ran ...` 系列。
-- 补齐工具调用错误文案：`Tried to use {0} - an unexpected error occurred`、`Tried to use {0} - {1}`。
-- 同步补齐 Hook 相关失败提示及常见步骤状态短语，减少升级后出现英文残留。
-- 更新核心补丁脚本与反查脚本，便于后续快速定位并修复 VS Code core 英文项。
+MIT

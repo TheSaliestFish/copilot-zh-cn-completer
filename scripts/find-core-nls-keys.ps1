@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
   # One or more UI strings you see in VS Code (English). Supports wildcards when -UseWildcard is set.
   [Parameter(Mandatory = $false, Position = 0, ValueFromRemainingArguments = $true)]

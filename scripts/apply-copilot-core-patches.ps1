@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
   [Parameter(Mandatory = $false)]
   [string]$LanguagePackMainI18n = "",
@@ -103,7 +103,42 @@ if (-not (Test-Path $LanguagePackMainI18n)) {
   throw "找不到语言包文件：$LanguagePackMainI18n"
 }
 
-$doc = Get-Content -Raw -Encoding UTF8 $LanguagePackMainI18n | ConvertFrom-Json -AsHashtable
+function ConvertTo-HashtableDeep($obj) {
+  if ($null -eq $obj) { return $null }
+
+  if ($obj -is [hashtable]) {
+    $h = @{}
+    foreach ($k in $obj.Keys) {
+      $h[$k] = ConvertTo-HashtableDeep $obj[$k]
+    }
+    return $h
+  }
+
+  if ($obj -is [System.Collections.IDictionary]) {
+    $h = @{}
+    foreach ($k in $obj.Keys) {
+      $h[$k] = ConvertTo-HashtableDeep $obj[$k]
+    }
+    return $h
+  }
+
+  if (($obj -is [System.Collections.IEnumerable]) -and -not ($obj -is [string])) {
+    return @($obj | ForEach-Object { ConvertTo-HashtableDeep $_ })
+  }
+
+  if ($obj -is [pscustomobject]) {
+    $h = @{}
+    foreach ($p in $obj.PSObject.Properties) {
+      $h[$p.Name] = ConvertTo-HashtableDeep $p.Value
+    }
+    return $h
+  }
+
+  return $obj
+}
+
+$doc = Get-Content -Raw -Encoding UTF8 $LanguagePackMainI18n | ConvertFrom-Json
+$doc = ConvertTo-HashtableDeep $doc
 $contents = $doc['contents']
 if (-not ($contents -is [hashtable])) {
   throw '语言包 contents 类型不正确'
@@ -133,6 +168,14 @@ $patches = @(
 
   # Chat tool actions
   @{ module='vs/workbench/contrib/chat/browser/actions/chatToolActions'; key='chat.skip'; value='跳过' },
+
+  # Chat queue / steer (input actions)
+  @{ module='vs/workbench/contrib/chat/browser/actions/chatQueueActions'; key='chat.queueMessage'; value='添加到队列' },
+  @{ module='vs/workbench/contrib/chat/browser/actions/chatQueueActions'; key='chat.queueMessage.tooltip'; value='将此消息加入队列，在当前请求完成后发送' },
+  @{ module='vs/workbench/contrib/chat/browser/actions/chatQueueActions'; key='chat.steerWithMessage'; value='用消息引导' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/input/chatQueuePickerActionItem'; key='chat.queueMessage'; value='添加到队列' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/input/chatQueuePickerActionItem'; key='chat.queueMessage.hover'; value='将此消息加入队列，在当前请求完成后发送。当前响应会不被打断地完成，然后才会发送队列中的消息。' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/input/chatQueuePickerActionItem'; key='chat.steerWithMessage'; value='用消息引导' },
 
   # Chat codeblock content
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatMarkdownContentPart'; key='chat.codeblock.edited'; value='已编辑' },
@@ -224,6 +267,14 @@ $patches = @(
   # Terminal await tool status
   @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/awaitTerminalTool'; key='await.past'; value='已等待终端执行完成' },
   @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/awaitTerminalTool'; key='await.progressive'; value='正在等待终端执行完成' },
+
+  # runInTerminal confirmation templates
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/runInTerminalTool'; key='runInTerminal.background'; value='在后台运行 `{0}` 命令？' },
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/runInTerminalTool'; key='runInTerminal.background.inDirectory'; value='在 `{1}` 中后台运行 `{0}` 命令？' },
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/runInTerminalTool'; key='runInTerminal.presentationOverride'; value='在 `{1}` 中运行 `{0}` 命令？' },
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/runInTerminalTool'; key='runInTerminal.presentationOverride.background'; value='在 `{1}` 中后台运行 `{0}` 命令？' },
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/runInTerminalTool'; key='runInTerminal.presentationOverride.background.inDirectory'; value='在 `{1}` 中于 `{2}` 内后台运行 `{0}` 命令？' },
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/runInTerminalTool'; key='runInTerminal.presentationOverride.inDirectory'; value='在 `{1}` 中于 `{2}` 内运行 `{0}` 命令？' },
 
   # Tool confirmation service (allow in session/workspace/global)
   @{ module='vs/workbench/contrib/chat/browser/tools/languageModelToolsConfirmationService'; key='allowSession'; value='在此会话中允许' },

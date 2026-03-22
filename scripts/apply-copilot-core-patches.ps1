@@ -137,8 +137,14 @@ function ConvertTo-HashtableDeep($obj) {
   return $obj
 }
 
-$doc = Get-Content -Raw -Encoding UTF8 $LanguagePackMainI18n | ConvertFrom-Json
-$doc = ConvertTo-HashtableDeep $doc
+$jsonRaw = Get-Content -Raw -Encoding UTF8 $LanguagePackMainI18n
+$convertFromJsonSupportsAsHashtable = $null -ne (Get-Command ConvertFrom-Json).Parameters['AsHashtable']
+if ($convertFromJsonSupportsAsHashtable) {
+  $doc = $jsonRaw | ConvertFrom-Json -AsHashtable
+} else {
+  $doc = $jsonRaw | ConvertFrom-Json
+  $doc = ConvertTo-HashtableDeep $doc
+}
 $contents = $doc['contents']
 if (-not ($contents -is [hashtable])) {
   throw '语言包 contents 类型不正确'
@@ -167,6 +173,26 @@ $patches = @(
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatToolConfirmationSubPart'; key='allowReview'; value='允许并审查一次' },
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatToolConfirmationSubPart'; key='allowSkip'; value='允许并跳过审查结果' },
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatToolPostExecuteConfirmationPart'; key='allow'; value='允许' },
+
+  # Permission mode picker
+  @{ module='vs/sessions/contrib/chat/browser/newChatPermissionPicker'; key='permissions.default'; value='默认审批' },
+  @{ module='vs/sessions/contrib/chat/browser/newChatPermissionPicker'; key='permissions.default.label'; value='默认审批' },
+  @{ module='vs/sessions/contrib/chat/browser/newChatPermissionPicker'; key='permissions.default.subtext'; value='Copilot 使用你当前配置的设置' },
+  @{ module='vs/sessions/contrib/chat/browser/newChatPermissionPicker'; key='permissions.autoApprove'; value='绕过审批' },
+  @{ module='vs/sessions/contrib/chat/browser/newChatPermissionPicker'; key='permissions.autoApprove.label'; value='绕过审批' },
+  @{ module='vs/sessions/contrib/chat/browser/newChatPermissionPicker'; key='permissions.autoApprove.subtext'; value='所有工具调用都会被自动批准' },
+  @{ module='vs/sessions/contrib/chat/browser/newChatPermissionPicker'; key='permissions.autopilot'; value='自动执行（预览）' },
+  @{ module='vs/sessions/contrib/chat/browser/newChatPermissionPicker'; key='permissions.autopilot.label'; value='自动执行（预览）' },
+  @{ module='vs/sessions/contrib/chat/browser/newChatPermissionPicker'; key='permissions.autopilot.subtext'; value='从开始到结束自主迭代执行' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/input/permissionPickerActionItem'; key='permissions.default'; value='默认审批' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/input/permissionPickerActionItem'; key='permissions.default.label'; value='默认审批' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/input/permissionPickerActionItem'; key='permissions.default.subtext'; value='Copilot 使用你当前配置的设置' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/input/permissionPickerActionItem'; key='permissions.autoApprove'; value='绕过审批' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/input/permissionPickerActionItem'; key='permissions.autoApprove.label'; value='绕过审批' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/input/permissionPickerActionItem'; key='permissions.autoApprove.subtext'; value='所有工具调用都会被自动批准' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/input/permissionPickerActionItem'; key='permissions.autopilot'; value='自动执行（预览）' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/input/permissionPickerActionItem'; key='permissions.autopilot.label'; value='自动执行（预览）' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/input/permissionPickerActionItem'; key='permissions.autopilot.subtext'; value='从开始到结束自主迭代执行' },
 
   # Built-in tool: fetch webpage confirmation
   @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.confirmationTitle.singular'; value='提取网页？' },
@@ -216,6 +242,15 @@ $patches = @(
   @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsPicker'; key='archiveSession'; value='归档' },
   @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsActions'; key='rename'; value='重命名...' },
   @{ module='vs/workbench/contrib/chat/browser/agentSessions/agentSessionsActions'; key='delete'; value='删除...' },
+
+  # New chat / continue-in menu
+  @{ module='vs/workbench/contrib/chat/browser/widget/input/delegationSessionPickerActionItem'; key='chat.newChatSession'; value='新建聊天会话' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/input/delegationSessionPickerActionItem'; key='chat.newChatSession.category'; value='新建聊天会话' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/input/delegationSessionPickerActionItem'; key='continueIn'; value='继续使用' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/input/delegationSessionPickerActionItem'; key='chat.learnMoreAgentHandOff'; value='了解智能体交接...' },
+  @{ module='vs/workbench/contrib/chat/browser/actions/chatContinueInAction'; key='continueIn'; value='继续使用' },
+  @{ module='vs/workbench/contrib/chat/browser/actions/chatActions'; key='interactiveSession.open'; value='新建聊天编辑器' },
+  @{ module='vs/workbench/contrib/chat/browser/actions/chatActions'; key='interactiveSession.newChatWindow'; value='新建聊天窗口' },
 
   # Chat customization menu
   @{ module='vs/workbench/contrib/chat/browser/actions/chatCustomizationDiagnosticsAction'; key='chat.diagnostics.label'; value='诊断' },

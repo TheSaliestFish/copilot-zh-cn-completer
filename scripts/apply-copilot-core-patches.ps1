@@ -206,6 +206,54 @@ $patches = @(
   # Terminal tool prompt-injection disclaimer (reused string)
   @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/commandLineAnalyzer/commandLineAutoApproveAnalyzer'; key='runInTerminal.promptInjectionDisclaimer'; value='网页内容可能包含恶意代码，或尝试进行提示注入攻击。' },
 
+  # Terminal exact-command approvals
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/runInTerminalHelpers'; key='allowSession'; value='允许此会话中的所有命令' },
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/runInTerminalHelpers'; key='autoApprove.exactCommand'; value='始终允许完全匹配的命令行' },
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/runInTerminalHelpers'; key='autoApprove.exactCommand1'; value='在此会话中允许完全匹配的命令行' },
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/runInTerminalHelpers'; key='autoApprove.exactCommand2'; value='在此工作区中允许完全匹配的命令行' },
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/runInTerminalHelpers'; key='autoApprove.configure'; value='配置自动审批...' },
+
+  # Tool confirmation variants for session/workspace/server scopes
+  @{ module='vs/workbench/contrib/chat/browser/tools/languageModelToolsConfirmationService'; key='allowSession'; value='在此会话中允许' },
+  @{ module='vs/workbench/contrib/chat/browser/tools/languageModelToolsConfirmationService'; key='allowSessionPost'; value='在此会话中允许且不审查结果' },
+  @{ module='vs/workbench/contrib/chat/browser/tools/languageModelToolsConfirmationService'; key='allowWorkspace'; value='在此工作区中允许' },
+  @{ module='vs/workbench/contrib/chat/browser/tools/languageModelToolsConfirmationService'; key='allowWorkspacePost'; value='在此工作区中允许且不审查结果' },
+  @{ module='vs/workbench/contrib/chat/browser/tools/languageModelToolsConfirmationService'; key='allowGlobally'; value='始终允许' },
+  @{ module='vs/workbench/contrib/chat/browser/tools/languageModelToolsConfirmationService'; key='allowGloballyPost'; value='始终允许且不审查结果' },
+  @{ module='vs/workbench/contrib/chat/browser/tools/languageModelToolsConfirmationService'; key='allowServerSession'; value='在此会话中允许来自 {0} 的工具' },
+  @{ module='vs/workbench/contrib/chat/browser/tools/languageModelToolsConfirmationService'; key='allowServerSessionPost'; value='在此会话中允许来自 {0} 的工具且不审查结果' },
+  @{ module='vs/workbench/contrib/chat/browser/tools/languageModelToolsConfirmationService'; key='allowServerWorkspace'; value='在此工作区中允许来自 {0} 的工具' },
+  @{ module='vs/workbench/contrib/chat/browser/tools/languageModelToolsConfirmationService'; key='allowServerWorkspacePost'; value='在此工作区中允许来自 {0} 的工具且不审查结果' },
+  @{ module='vs/workbench/contrib/chat/browser/tools/languageModelToolsConfirmationService'; key='allowServerGlobally'; value='始终允许来自 {0} 的工具' },
+  @{ module='vs/workbench/contrib/chat/browser/tools/languageModelToolsConfirmationService'; key='allowServerGloballyPost'; value='始终允许来自 {0} 的工具且不审查结果' },
+
+  # MCP start interaction prompts
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatMcpServersInteractionContentPart'; key='mcp.start.single'; value='MCP 服务器 {0} 可能有新工具，并且需要交互后才能启动。[立即启动？]({1})' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatMcpServersInteractionContentPart'; key='mcp.start.multiple'; value='MCP 服务器 {0} 可能有新工具，并且需要交互后才能启动。[立即全部启动？]({1})' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatMcpServersInteractionContentPart'; key='mcp.starting.servers'; value='正在启动 MCP 服务器 {0}...' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatMcpServersInteractionContentPart'; key='mcp.skip.tooltip'; value='跳过启动此 MCP 服务器' },
+
+  # Chat thinking/progress variants
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatThinkingContentPart'; key='chat.thinking.terminal.2'; value='运行中' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatThinkingContentPart'; key='chat.thinking.terminal.3'; value='处理中' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatThinkingContentPart'; key='chat.thinking.tool.1'; value='处理中' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatThinkingContentPart'; key='chat.thinking.tool.5'; value='评估中' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatThinkingContentPart'; key='chat.thinking.thinking.5'; value='评估中' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatThinkingContentPart'; key='chat.thinking.finished.withSteps'; value='已完成，共 {0} 步' },
+  @{ module='vs/workbench/contrib/chat/browser/aiCustomization/mcpListWidget'; key='running'; value='运行中' },
+
+  # Terminal tool progress / result prefixes
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatTerminalToolProgressPart'; key='chat.terminal.ran.prefix'; value='已运行 ' },
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/runInTerminalTool'; key='runInTerminal.invocation'; value='正在运行 `{0}`' },
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/runInTerminalTool'; key='runInTerminal.invocation.background'; value='正在后台运行 `{0}`' },
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/runInTerminalTool'; key='runInTerminal.streaming'; value='正在运行 `{0}`' },
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/runInTerminalTool'; key='runInTerminal.streaming.background'; value='正在后台运行 `{0}`' },
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/runInTerminalTool'; key='runInTerminal.streaming.default'; value='正在运行命令' },
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/task/runTaskTool'; key='chat.runningTask'; value='正在运行 `{0}`' },
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/task/runTaskTool'; key='chat.ranTask'; value='已运行 `{0}`' },
+  @{ module='vs/workbench/contrib/mcp/common/mcpLanguageModelToolContribution'; key='msg.run'; value='正在运行 {0}' },
+  @{ module='vs/workbench/contrib/mcp/common/mcpLanguageModelToolContribution'; key='msg.ran'; value='已运行 {0} ' },
+
   # Chat tool actions
   @{ module='vs/workbench/contrib/chat/browser/actions/chatToolActions'; key='chat.skip'; value='跳过' },
 

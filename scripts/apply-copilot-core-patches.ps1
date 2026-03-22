@@ -270,6 +270,15 @@ $patches = @(
   @{ module='vs/workbench/contrib/chat/common/tools/builtinTools/chatUrlFetchingConfirmation'; key='allowResponsesCheckbox'; value='允许结果无需确认直接返回' },
   @{ module='vs/workbench/contrib/chat/common/tools/builtinTools/chatUrlFetchingConfirmation'; key='approveResponseFrom'; value='允许来自 {0} 的结果' },
 
+  # Generic summary / past-tense status lines
+  @{ module='vs/workbench/contrib/chat/browser/pluginInstallService'; key='updateAllSuccess'; value='已更新插件：{0}' },
+  @{ module='vs/workbench/contrib/chat/common/tools/builtinTools/manageTodoListTool'; key='todo.updated'; value='已更新待办事项列表' },
+  @{ module='vs/workbench/contrib/chat/common/tools/builtinTools/manageTodoListTool'; key='todo.updatedList'; value='已更新待办事项列表' },
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/getTerminalOutputTool'; key='bg.past'; value='已检查后台终端输出' },
+  @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/task/getTaskOutputTool'; key='copilotChat.checkedTerminalOutput'; value='已检查任务 `{0}` 的输出' },
+  @{ module='vs/workbench/contrib/extensions/browser/extensionsActions'; key='updated'; value='已更新' },
+  @{ module='vs/workbench/contrib/welcomeGettingStarted/browser/gettingStarted'; key='newItems'; value='已更新' },
+
   # Chat tool actions
   @{ module='vs/workbench/contrib/chat/browser/actions/chatToolActions'; key='chat.skip'; value='跳过' },
 

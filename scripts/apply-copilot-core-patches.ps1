@@ -198,6 +198,16 @@ $patches = @(
   @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.confirmationTitle.singular'; value='提取网页？' },
   @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.confirmationTitle.plural'; value='提取多个网页？' },
   @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.confirmationMessage.plural'; value='网页内容可能包含恶意代码，或尝试进行提示注入攻击。' },
+  @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.fetchedFrom'; value='已抓取自 {0}' },
+  @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.pastTenseMessage.plural'; value='已抓取 {0} 个资源，但以下 URL 无效：
+{1}
+' },
+  @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.pastTenseMessage.singular'; value='已抓取资源，但以下 URL 无效：
+{0}
+' },
+  @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.pastTenseMessageResult.plural'; value='已抓取 {0} 个资源' },
+  @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.pastTenseMessageResult.singular'; value='已抓取 {0}' },
+  @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.pastTenseMessageResult.singularAsLink'; value='已抓取 [资源]({0})' },
 
   # URL fetching approvals (dropdown options)
   @{ module='vs/workbench/contrib/chat/common/tools/builtinTools/chatUrlFetchingConfirmation'; key='approveRequestTo'; value='允许请求到 {0}' },
@@ -444,10 +454,15 @@ try {
   }
 
   $autoExactMap = @{
+    'Running'        = '运行中'
     'Working'        = '工作中'
     'Working…'       = '工作中…'
+    'Processing'     = '处理中'
     'Processing…'    = '处理中…'
+    'Evaluating'     = '评估中'
     'Evaluating…'    = '评估中…'
+    'Analyzing'      = '分析中'
+    'Loading'        = '加载中'
     'Thinking'       = '思考中'
     'Thinking…'      = '思考中…'
     'Thinking: {0}'  = '思考中：{0}'

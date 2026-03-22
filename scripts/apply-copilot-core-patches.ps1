@@ -169,10 +169,11 @@ $patches = @(
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatTerminalToolConfirmationSubPart'; key='tool.allow'; value='允许' },
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatTerminalToolConfirmationSubPart'; key='tool.skip'; value='跳过' },
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/abstractToolConfirmationSubPart'; key='skip'; value='跳过' },
-  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatToolConfirmationSubPart'; key='allow'; value='允许' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatToolConfirmationSubPart'; key='allow'; value='允许一次' },
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatToolConfirmationSubPart'; key='allowReview'; value='允许并审查一次' },
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatToolConfirmationSubPart'; key='allowSkip'; value='允许并跳过审查结果' },
-  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatToolPostExecuteConfirmationPart'; key='allow'; value='允许' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatToolPostExecuteConfirmationPart'; key='allow'; value='允许一次' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatToolPostExecuteConfirmationPart'; key='skip.post'; value='跳过结果' },
 
   # Permission mode picker
   @{ module='vs/sessions/contrib/chat/browser/newChatPermissionPicker'; key='permissions.default'; value='默认审批' },
@@ -198,16 +199,6 @@ $patches = @(
   @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.confirmationTitle.singular'; value='提取网页？' },
   @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.confirmationTitle.plural'; value='提取多个网页？' },
   @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.confirmationMessage.plural'; value='网页内容可能包含恶意代码，或尝试进行提示注入攻击。' },
-  @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.fetchedFrom'; value='已抓取自 {0}' },
-  @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.pastTenseMessage.plural'; value='已抓取 {0} 个资源，但以下 URL 无效：
-{1}
-' },
-  @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.pastTenseMessage.singular'; value='已抓取资源，但以下 URL 无效：
-{0}
-' },
-  @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.pastTenseMessageResult.plural'; value='已抓取 {0} 个资源' },
-  @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.pastTenseMessageResult.singular'; value='已抓取 {0}' },
-  @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.pastTenseMessageResult.singularAsLink'; value='已抓取 [资源]({0})' },
 
   # URL fetching approvals (dropdown options)
   @{ module='vs/workbench/contrib/chat/common/tools/builtinTools/chatUrlFetchingConfirmation'; key='approveRequestTo'; value='允许请求到 {0}' },
@@ -241,12 +232,16 @@ $patches = @(
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatMcpServersInteractionContentPart'; key='mcp.start.single'; value='MCP 服务器 {0} 可能有新工具，并且需要交互后才能启动。[立即启动？]({1})' },
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatMcpServersInteractionContentPart'; key='mcp.start.multiple'; value='MCP 服务器 {0} 可能有新工具，并且需要交互后才能启动。[立即全部启动？]({1})' },
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatMcpServersInteractionContentPart'; key='mcp.starting.servers'; value='正在启动 MCP 服务器 {0}...' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatMcpServersInteractionContentPart'; key='mcp.skip.link'; value='跳过？' },
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatMcpServersInteractionContentPart'; key='mcp.skip.tooltip'; value='跳过启动此 MCP 服务器' },
 
   # Chat thinking/progress variants
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatThinkingContentPart'; key='chat.thinking.terminal.2'; value='运行中' },
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatThinkingContentPart'; key='chat.thinking.terminal.3'; value='处理中' },
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatThinkingContentPart'; key='chat.thinking.tool.1'; value='处理中' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatThinkingContentPart'; key='chat.thinking.tool.3'; value='加载中' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatThinkingContentPart'; key='chat.thinking.thinking.4'; value='分析中' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatThinkingContentPart'; key='chat.thinking.tool.4'; value='分析中' },
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatThinkingContentPart'; key='chat.thinking.tool.5'; value='评估中' },
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatThinkingContentPart'; key='chat.thinking.thinking.5'; value='评估中' },
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatThinkingContentPart'; key='chat.thinking.finished.withSteps'; value='已完成，共 {0} 步' },
@@ -263,6 +258,17 @@ $patches = @(
   @{ module='vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/task/runTaskTool'; key='chat.ranTask'; value='已运行 `{0}`' },
   @{ module='vs/workbench/contrib/mcp/common/mcpLanguageModelToolContribution'; key='msg.run'; value='正在运行 {0}' },
   @{ module='vs/workbench/contrib/mcp/common/mcpLanguageModelToolContribution'; key='msg.ran'; value='已运行 {0} ' },
+
+  # Fetch webpage post-run summaries
+  @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.fetchedFrom'; value='抓取自 {0}' },
+  @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.pastTenseMessageResult.singular'; value='已抓取 {0}' },
+  @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.pastTenseMessageResult.plural'; value='已抓取 {0} 个资源' },
+  @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.pastTenseMessage.singular'; value='已抓取资源，但以下 URL 无效：`n{0}`n' },
+  @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.pastTenseMessage.plural'; value='已抓取 {0} 个资源，但以下 URL 无效：`n{1}`n' },
+
+  # URL fetching follow-up approvals
+  @{ module='vs/workbench/contrib/chat/common/tools/builtinTools/chatUrlFetchingConfirmation'; key='allowResponsesCheckbox'; value='允许结果无需确认直接返回' },
+  @{ module='vs/workbench/contrib/chat/common/tools/builtinTools/chatUrlFetchingConfirmation'; key='approveResponseFrom'; value='允许来自 {0} 的结果' },
 
   # Chat tool actions
   @{ module='vs/workbench/contrib/chat/browser/actions/chatToolActions'; key='chat.skip'; value='跳过' },
@@ -454,15 +460,10 @@ try {
   }
 
   $autoExactMap = @{
-    'Running'        = '运行中'
     'Working'        = '工作中'
     'Working…'       = '工作中…'
-    'Processing'     = '处理中'
     'Processing…'    = '处理中…'
-    'Evaluating'     = '评估中'
     'Evaluating…'    = '评估中…'
-    'Analyzing'      = '分析中'
-    'Loading'        = '加载中'
     'Thinking'       = '思考中'
     'Thinking…'      = '思考中…'
     'Thinking: {0}'  = '思考中：{0}'

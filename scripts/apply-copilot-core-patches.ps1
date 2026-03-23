@@ -7,6 +7,22 @@ param(
   [switch]$DryRun
 )
 
+if ($PSVersionTable.PSVersion.Major -lt 7) {
+  $pwsh = Get-Command pwsh -ErrorAction SilentlyContinue
+  if ($null -ne $pwsh) {
+    $reinvokeArgs = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $PSCommandPath)
+    if (-not [string]::IsNullOrWhiteSpace($LanguagePackMainI18n)) {
+      $reinvokeArgs += @('-LanguagePackMainI18n', $LanguagePackMainI18n)
+    }
+    if ($DryRun) {
+      $reinvokeArgs += '-DryRun'
+    }
+
+    & $pwsh.Source @reinvokeArgs
+    exit $LASTEXITCODE
+  }
+}
+
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
@@ -185,6 +201,13 @@ $patches = @(
   @{ module='vs/sessions/contrib/chat/browser/newChatPermissionPicker'; key='permissions.autopilot'; value='自动执行（预览）' },
   @{ module='vs/sessions/contrib/chat/browser/newChatPermissionPicker'; key='permissions.autopilot.label'; value='自动执行（预览）' },
   @{ module='vs/sessions/contrib/chat/browser/newChatPermissionPicker'; key='permissions.autopilot.subtext'; value='从开始到结束自主迭代执行' },
+  @{ module='vs/sessions/contrib/chat/browser/newChatPermissionPicker'; key='permissions.autopilot.warning.title'; value='启用自动执行？' },
+  @{ module='vs/sessions/contrib/chat/browser/newChatPermissionPicker'; key='permissions.autopilot.warning.detail'; value='自动执行会自动批准所有工具调用，并持续自主工作直到任务完成。智能体会代表你作出决定，而不会再次请求确认。`n`n你可以随时点击停止按钮来中止智能体。这只对当前会话生效。' },
+  # Model picker
+  @{ module='vs/workbench/contrib/chat/browser/widget/input/chatModelPicker'; key='chat.modelPicker.search'; value='搜索模型' },
+  @{ module='vs/sessions/contrib/chat/browser/modelPicker'; key='modelPicker.auto'; value='自动' },
+  @{ module='vs/workbench/contrib/chat/common/widget/input/modelPickerWidget'; key='chat.modelPicker.other'; value='其他模型' },
+  @{ module='vs/workbench/contrib/chat/browser/defaultModelContribution'; key='defaultModel'; value='Auto（供应商默认）' },
   @{ module='vs/workbench/contrib/chat/browser/widget/input/permissionPickerActionItem'; key='permissions.default'; value='默认审批' },
   @{ module='vs/workbench/contrib/chat/browser/widget/input/permissionPickerActionItem'; key='permissions.default.label'; value='默认审批' },
   @{ module='vs/workbench/contrib/chat/browser/widget/input/permissionPickerActionItem'; key='permissions.default.subtext'; value='Copilot 使用你当前配置的设置' },
@@ -194,6 +217,8 @@ $patches = @(
   @{ module='vs/workbench/contrib/chat/browser/widget/input/permissionPickerActionItem'; key='permissions.autopilot'; value='自动执行（预览）' },
   @{ module='vs/workbench/contrib/chat/browser/widget/input/permissionPickerActionItem'; key='permissions.autopilot.label'; value='自动执行（预览）' },
   @{ module='vs/workbench/contrib/chat/browser/widget/input/permissionPickerActionItem'; key='permissions.autopilot.subtext'; value='从开始到结束自主迭代执行' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/input/permissionPickerActionItem'; key='permissions.autopilot.warning.title'; value='启用自动执行？' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/input/permissionPickerActionItem'; key='permissions.autopilot.warning.detail'; value='自动执行会自动批准所有工具调用，并持续自主工作直到任务完成。智能体会代表你作出决定，而不会再次请求确认。`n`n你可以随时点击停止按钮来中止智能体。这只对当前会话生效。' },
 
   # Built-in tool: fetch webpage confirmation
   @{ module='vs/workbench/contrib/chat/electron-browser/builtInTools/fetchPageTool'; key='fetchWebPage.confirmationTitle.singular'; value='提取网页？' },
@@ -285,10 +310,23 @@ $patches = @(
   # Chat queue / steer (input actions)
   @{ module='vs/workbench/contrib/chat/browser/actions/chatQueueActions'; key='chat.queueMessage'; value='添加到队列' },
   @{ module='vs/workbench/contrib/chat/browser/actions/chatQueueActions'; key='chat.queueMessage.tooltip'; value='将此消息加入队列，在当前请求完成后发送' },
+  @{ module='vs/workbench/contrib/chat/browser/actions/chatQueueActions'; key='chat.sendImmediately.tooltip'; value='取消当前请求并立即发送此消息。' },
+  @{ module='vs/workbench/contrib/chat/browser/actions/chatQueueActions'; key='chat.steerWithMessage.tooltip'; value='在下一个时机发送此消息，并示意当前请求让出执行权' },
   @{ module='vs/workbench/contrib/chat/browser/actions/chatQueueActions'; key='chat.steerWithMessage'; value='用消息引导' },
   @{ module='vs/workbench/contrib/chat/browser/widget/input/chatQueuePickerActionItem'; key='chat.queueMessage'; value='添加到队列' },
   @{ module='vs/workbench/contrib/chat/browser/widget/input/chatQueuePickerActionItem'; key='chat.queueMessage.hover'; value='将此消息加入队列，在当前请求完成后发送。当前响应会不被打断地完成，然后才会发送队列中的消息。' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/input/chatQueuePickerActionItem'; key='chat.sendImmediately.hover'; value='取消当前请求并立即发送此消息。' },
   @{ module='vs/workbench/contrib/chat/browser/widget/input/chatQueuePickerActionItem'; key='chat.steerWithMessage'; value='用消息引导' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/input/chatQueuePickerActionItem'; key='chat.steerWithMessage.hover'; value='在下一个时机发送此消息，并示意当前请求让出执行权。当前响应会停止，随后立即发送这条新消息。' },
+
+  # Chat queue / steer status labels
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatListRenderer'; key='queuedDivider'; value='排队中' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatListRenderer'; key='queuedDividerTooltip'; value='排队中的消息会在当前请求完成后发送' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatListRenderer'; key='steeringDivider'; value='引导中' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatListRenderer'; key='steeringDividerTooltip'; value='引导消息会在下一次工具调用后发送' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatWidget'; key='chat.pendingRequests.steeringQueued'; value='引导中' },
+  @{ module='vs/workbench/contrib/chat/browser/chat.contribution'; key='chat.requestQueuing.defaultAction.steer'; value='通过立即发送消息来引导当前请求，并示意当前请求让出执行权。' },
+  @{ module='vs/workbench/contrib/chat/browser/chat.contribution'; key='chat.requestQueuing.defaultAction.queue'; value='将消息加入队列，等待当前请求完成后再发送。' },
 
   # Chat codeblock content
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatMarkdownContentPart'; key='chat.codeblock.edited'; value='已编辑' },
@@ -372,10 +410,13 @@ $patches = @(
   @{ module='vs/workbench/contrib/chat/common/tools/builtinTools/manageTodoListTool'; key='todo.updatedList'; value='已更新待办事项列表' },
 
   # Thinking status variants
-  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatThinkingContentPart'; key='chat.thinking.thinking.3'; value='正在考虑…' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatThinkingContentPart'; key='chat.thinking.thinking.3'; value='考虑中' },
 
   # Tool / agent status messages
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatSubagentContentPart'; key='chat.subagent.defaultDescription'; value='正在运行子代理…' },
+  @{ module='vs/workbench/contrib/chat/browser/chatDebug/chatDebugLogsView'; key='chatDebug.col.created'; value='已创建' },
+  @{ module='vs/workbench/contrib/chat/browser/chatDebug/chatDebugOverviewView'; key='chatDebug.detail.created'; value='已创建' },
+  @{ module='vs/workbench/contrib/chat/browser/widget/chatListRenderer'; key='chatConfirmationAction'; value='已选择“{0}”' },
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/chatWorkspaceEditContentPart'; key='created'; value='已创建 []({0})' },
   @{ module='vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatTerminalToolProgressPart'; key='chat.terminal.running.prefix'; value='正在运行' },
 
@@ -437,7 +478,7 @@ $patches = @(
 
   # Chat queue actions (input menu)
   @{ module='vs/workbench/contrib/chat/browser/widget/input/chatQueuePickerActionItem'; key='chat.sendImmediately'; value='停止并发送' },
-  @{ module='vs/workbench/contrib/chat/browser/actions/chatQueueActions'; key='chat.queueMessage'; value='加入队列' },
+  @{ module='vs/workbench/contrib/chat/browser/actions/chatQueueActions'; key='chat.queueMessage'; value='添加到队列' },
   @{ module='vs/workbench/contrib/chat/browser/actions/chatQueueActions'; key='chat.steerWithMessage'; value='用消息引导' }
 )
 
@@ -476,6 +517,15 @@ try {
     'Thinking'       = '思考中'
     'Thinking…'      = '思考中…'
     'Thinking: {0}'  = '思考中：{0}'
+    'Selected'       = '已选择'
+    'Executed'       = '已执行'
+    'Finalized'      = '已完成'
+    'Inspecting'     = '检查中'
+    'Considering'    = '考虑中'
+    'Searched'       = '已搜索'
+    'Updated'        = '已更新'
+    'Gathering'      = '收集中'
+    'Created'        = '已创建'
   }
 
   $autoStatus = @()
